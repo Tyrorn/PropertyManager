@@ -1,69 +1,83 @@
-# React + TypeScript + Vite
+# Keyhook Viewing Booking System - Proof of Concept
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## 📋 Overview
 
-Currently, two official plugins are available:
+This is a **Proof of Concept** (POC) project for a property viewing booking system, designed for **property managers (PMs)** and **tenants**.  
+It demonstrates the core functionality of managing property availabilities, booking viewings, and linking tenants to bookings.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+The goal was to validate the technical feasibility of the system before full-scale production development.
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## 🚀 Features
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- **Property Manager Availability Management**
+  - PMs can set and view their availability.
+- **Tenant Booking**
+  - Tenants can book available slots with a PM.
+- **Linked Property Details**
+  - Bookings are associated with property information (ID and address).
+- **Contact Details**
+  - Tenant name and contact number linked to booking records.
+- **Secure User Authentication**
+  - User passwords are not returned to the frontend.
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+---
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## 🛠 Tech Stack
+
+**Frontend:**
+
+- React
+- TypeScript
+- Vite
+- Tailwind CSS
+
+**Backend:**
+
+- Node.js
+- Express
+- Prisma ORM
+- SQLite (via Prisma)
+
+**Other Tools:**
+
+- VS Code (development)
+- Git & GitHub (version control)
+- npm (package management)
+
+---
+
+## 🧪 How to Run Locally
+
+```bash
+git clone https://github.com/YOUR_USERNAME/YOUR_REPO_NAME.git
+# Start the backend
+cd server
+npm install
+npx prisma migrate dev
+npm run dev
+
+# Start the frontend
+cd ../keyhook
+npm
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Steps to Make it Production Ready
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+1. UI/UX
+   a. Improve CSS of dashboard components and add as a tab in a dashboard for the user.
+   b. Allow Tenants and Property managers the ability to cancel availabilities and bookings.
+   c. Improve CSS
+   d. Store user data in React Context for cleaner state management.
 
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+2. Security
+   a. Remove buttons which currently simply the user logins
+   b. Add new login functionality to request username and password
+   c. Add sanitization
+   d. Validate API calls per user permissions.
+
+3. Testing
+   a. Implement unit tests
+   b. Optionally implement integration tests
