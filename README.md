@@ -51,7 +51,7 @@ The goal was to validate the technical feasibility of the system before full-sca
 ## 🧪 How to Run Locally
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/YOUR_REPO_NAME.git
+git clone https://github.com/Tyrorn/PropertyManager.git
 # Start the backend
 cd server
 npm install
