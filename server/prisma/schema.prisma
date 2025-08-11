@@ -1,0 +1,68 @@
+//this is my schema.prisma
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  seed     = "ts-node prisma/seed.ts" //Used to create a baseline dataset
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+//id Int @id @default(autoincrement()) Should be autoincrement
+model User {
+  id            Int    @id
+  username      String @unique
+  password      String //Store hashed password
+  role          String // Tenant or Property Manager
+  contactNumber String //Contant details of user
+
+  availabilities Availability[]
+  pmProperties   PMProperties[]
+  bookings       Booking[]      @relation("UserBookings")
+}
+
+model Availability {
+  id                Int    @id @default(autoincrement())
+  propertyManagerId Int
+  date              String
+  startTime         String
+  endTime           String
+
+  propertyManager User     @relation(fields: [propertyManagerId], references: [id])
+  Booking         Booking? @relation("AvailabilityBooking")
+}
+
+model Booking {
+  id             Int    @id @default(autoincrement())
+  availabilityId Int    @unique
+  tenantID       Int
+  status         String
+  propertyId     Int
+
+  property     Property     @relation(fields: [propertyId], references: [id])
+  tenant       User         @relation("UserBookings", fields: [tenantID], references: [id])
+  availability Availability @relation("AvailabilityBooking", fields: [availabilityId], references: [id])
+}
+
+model PMProperties {
+  id         Int @id @default(autoincrement())
+  userId     Int
+  propertyId Int
+
+  propertyManager User     @relation(fields: [userId], references: [id])
+  property        Property @relation(fields: [propertyId], references: [id])
+}
+
+model Property {
+  id       Int    @id // @default(autoincrement()) for mocking purposes have commented out
+  name     String
+  address  String
+  imageUrl String
+
+  pmProperties PMProperties[]
+  bookings     Booking[]
+}
